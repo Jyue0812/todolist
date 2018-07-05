@@ -5,12 +5,22 @@
 {% block css %}{% static 'css/edit.css' %}{% endblock %}
 {% block content %}
     <br>
-    <form id="form-edit">
+    <form id="form-edit" method="post">
+        {% csrf_token %}
         <div class="form-group">
             <label for="editTodo"></label>
-            <input class="form-control form-control-lg" id="editTodo" type="text" value="遛狗">
+            <input name="changedevent" class="form-control form-control-lg" id="editTodo" type="text" value="{{ event }}">
             <small id="help" class="form-text text-muted">在这里编辑待办事项</small>
         </div>
-        <button type="button" class="btn btn-primary btn-lg btn-block">提交</button>
+        {% if err %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true"></span>
+            </button>
+            <strong>{{ err }}</strong>
+
+        </div>
+    {% endif %}
+        <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
     </form>
 {% endblock %}

@@ -1,23 +1,14 @@
 {% load static %}
 <!doctype html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <meta name="description" content="">
-
     <meta name="author" content="">
 
-    <link rel="icon" href="../../../../favicon.ico">
-
- <!-- lable icon -->
-    <link href="{% static 'icons/icon_list.png' %}" rel="shortcut icon" />
-
+    <!-- lable icon -->
+    <link href="{% static 'icons/icon_list.png' %}" rel="shortcut icon"/>
     <title>{% block title %}未命名{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
@@ -35,14 +26,18 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {% block homeh %}{% endblock %}">
-                <a class="nav-link" href="{% url "home" %}"><img src="{% static 'images/logo_list.png' %}" width="33" height="33" class="d-inline-block align-top" alt=""> 待办清单</a>
+                <a class="nav-link" href="{% url "home" %}">
+                    <img src="{% static 'images/logo_list.png' %}" width="33" height="33" class="d-inline-block align-top" alt="">
+                    待办清单
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% block abouth %}{% endblock %}" href="{% url "about" %}">关于本站</a>
             </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0 col-7 justify-content-end">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="待办事项">
+        <form class="form-inline mt-2 mt-md-0 col-7 justify-content-end" method="post">
+            {% csrf_token %}
+            <input name="event" class="form-control mr-sm-2" type="text" placeholder="待办事项" aria-label="待办事项">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">添加</button>
         </form>
     </div>
@@ -50,18 +45,20 @@
 
 <main class="container" role="main">
     <br>
-
     {% block content %}
     {% endblock %}
-
 </main>
-
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>#}
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
 </body>
-
 </html>

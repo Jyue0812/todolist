@@ -4,94 +4,132 @@
 {% block homeh %}active{% endblock %}
 {% block css %}{% static 'css/home.css' %}{% endblock %}
 {% block content %}
-    <br>
+    {% if err %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true"></span>
+            </button>
+            <strong>{{ err }}</strong>
+
+        </div>
+    {% endif %}
+
+    {% if info %}
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true"></span>
+            </button>
+            <strong>{{ info }}</strong>
+        </div>
+    {% endif %}
 
     <div class="table-responsive">
-
         <table class="table table-hover">
-
             <thead class="thead-light">
-
             <tr>
-
                 <th>序号</th>
-
                 <th>待办事项</th>
                 <th>编辑</th>
-
                 <th>划掉</th>
-
                 <th>删除</th>
-
             </tr>
-
             </thead>
-
             <tbody class="no-underline">
+            {% for v in lst %}
 
-            <tr>
+                {% if v.finished %}
+                    <tr class="table-dark">
+                        <th class="text-dark" scope="row">{{ forloop.counter }}</th>
+                        <td class="text-dark" id="line-through">{{ v.events }}</td>
+                        <td>
+                            <a href="#" class="text-secondary">不可编辑</a>
+                        </td>
+                        <td class="text-secondary">
+                            <form action="{% url 'cross' v.id %}" method="post">
+                                {% csrf_token %}
+                                <input hidden type="text" value="0" name="status">
+                                <button type="submit" class="btn btn-primary btn-sm">撤销</button>
+                            </form>
+                        </td>
+                        <td>
+                            <button  data-toggle="modal" data-target="#myModal{{ v.id }}" type="button" class="btn btn-danger btn-sm">删除</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal{{ v.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">请确认</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            确定要删除？<strong>已完成事项：{{ v.events }}</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消
+                                            </button>
+                                            <form action="{% url 'dele' v.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-primary">确认删除</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ v.events }}</td>
+                        <td>
+                            <a href="{% url 'edit' v.id %}">
+                                <button type="submit" class="btn btn-primary btn-sm">编辑</button>
+                            </a>
+                        </td>
+                        <td class="text-primary">
+                            <form action="{% url 'cross' v.id %}" method="post">
+                                {% csrf_token %}
+                                <input hidden type="text" value="1" name="status">
+                                <button type="submit" class="btn btn-primary btn-sm">划掉</button>
+                            </form>
+                        </td>
+                        <td>
+                            <button  data-toggle="modal" data-target="#myModal1{{ v.id }}" type="button" class="btn btn-primary btn-sm">删除</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal1{{ v.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">请确认</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            确定要删除？<strong>未完成事项：{{ v.events }}</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消
+                                            </button>
+                                            <form action="{% url 'dele' v.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-primary">确认删除</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
 
-                <th scope="row">1</th>
-
-                <td>小睡一下</td>
-                <td>
-                    <a href="{% url 'edit' %}" class="text-success">编辑</a>
-                </td>
-
-                <td class="text-primary">划掉</td>
-
-                <td>删除</td>
-
-            </tr>
-
-            <tr>
-
-                <th scope="row">2</th>
-
-                <td>看一会小说</td>
-                <td>
-                    <a href="{% url 'edit' %}" class="text-success">编辑</a>
-                </td>
-
-                <td class="text-primary">划掉</td>
-
-                <td>删除</td>
-
-            </tr>
-
-            <tr>
-
-                <th scope="row">3</th>
-
-                <td>散散步</td>
-                <td>
-                    <a href="{% url 'edit' %}" class="text-success">编辑</a>
-                </td>
-
-                <td class="text-primary">划掉</td>
-
-                <td>删除</td>
-
-            </tr>
-
-            <tr class="table-dark">
-
-                <th class="text-dark" scope="row">4</th>
-
-                <td class="text-dark" id="line-through">去超市</td>
-                <td>
-                    <a href="#" class="text-secondary">不可编辑</a>
-                </td>
-
-                <td class="text-secondary">撤销</td>
-
-                <td>删除</td>
-
-            </tr>
+            {% endfor %}
 
             </tbody>
-
         </table>
-
     </div>
 {% endblock %}

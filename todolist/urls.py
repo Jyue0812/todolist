@@ -19,5 +19,7 @@ from todolist import views
 urlpatterns = [
     path('home/', views.home, name="home"),
     path('about/', views.about, name="about"),
-    path('edit/', views.edit, name="edit"),
+    path('edit/<v_id>', views.edit, name="edit"),
+    path('dele/<v_id>', views.dele, name="dele"),
+    path('cross/<v_id>', views.cross, name="cross"),
 ]
